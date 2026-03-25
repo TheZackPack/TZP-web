@@ -1,0 +1,26 @@
+[
+  {
+    "version": "1.1.0",
+    "date": "2026-03-25",
+    "changes": [
+      "MadGod v2: Event-based AI system replaces always-on chaos",
+      "TZP Launcher: Custom launcher replaces CurseForge",
+      "Website dashboard with bug reports and patch notes",
+      "Fixed diamond/netherite zombie spam from NightmareMode",
+      "Added Curios API for Gobber accessories",
+      "Fixed AFK disconnect (/afk now prevents idle kick)",
+      "Added 595 EMC entries (up from 8)",
+      "3 new performance mods: C2ME, Noisium, ServerCore",
+      "Hard difficulty enabled"
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "date": "2026-03-20",
+    "changes": [
+      "Initial release: 170+ mods, MadGod AI companion",
+      "NeoForge 1.21.1 with MineColonies, Mekanism, Create, and more",
+      "Custom TZP Vanilla Bridge mod for server integration"
+    ]
+  }
+]

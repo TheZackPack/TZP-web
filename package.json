@@ -1,0 +1,12 @@
+{
+  "name": "tzp-web",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "cd backend && npm ci && npm run build && cd ../frontend && npm ci && npm run build",
+    "start": "cd backend && node dist/index.js",
+    "dev": "cd backend && npm run dev"
+  }
+}
