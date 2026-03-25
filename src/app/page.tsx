@@ -1,6 +1,7 @@
 import ServerStatus from "@/components/ServerStatus";
 import PatchNotes from "@/components/PatchNotes";
 import Particles from "@/components/Particles";
+import DownloadButton from "@/components/DownloadButton";
 
 const features = [
   {
@@ -83,19 +84,7 @@ export default function Home() {
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row items-center gap-4 animate-fade-in-up-delay-2">
-            <a
-              href="https://github.com/TheZackPack/TZP-launcher/releases/latest"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative px-8 py-3.5 bg-primary hover:bg-accent text-white font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-primary/30 hover:shadow-accent/40 hover:shadow-xl glow-purple"
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Download Launcher
-              </span>
-            </a>
+            <DownloadButton />
             <a
               href="/dashboard"
               className="px-8 py-3.5 glass rounded-lg text-text-primary hover:text-accent font-semibold transition-all duration-300 hover:border-accent/40"

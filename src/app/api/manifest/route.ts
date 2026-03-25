@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
 const MANIFEST_URL =
-  process.env.MANIFEST_URL ||
-  'https://github.com/TheZackPack/TZP-client/releases/latest/download/manifest.json';
+  process.env.TZP_MANIFEST_URL ||
+  'https://raw.githubusercontent.com/TheZackPack/TZP-client/main/manifest.json';
 
 let cachedManifest: unknown = null;
 let cacheTimestamp = 0;

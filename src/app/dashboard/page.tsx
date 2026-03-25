@@ -5,6 +5,7 @@ import ServerStatus from "@/components/ServerStatus";
 import PatchNotes from "@/components/PatchNotes";
 import BugReportForm from "@/components/BugReportForm";
 import Particles from "@/components/Particles";
+import DownloadButton from "@/components/DownloadButton";
 
 type Tab = "overview" | "bugs" | "patches";
 
@@ -113,22 +114,9 @@ export default function Dashboard() {
                 Quick Actions
               </div>
               <CopyIPButton />
-              <a
-                href="https://github.com/TheZackPack/TZP-launcher/releases/latest"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 w-full px-4 py-3 glass rounded-lg hover:border-accent/40 transition-all duration-200 text-left group"
-              >
-                <div className="w-8 h-8 rounded-md bg-primary/20 flex items-center justify-center text-accent group-hover:glow-purple transition-shadow">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-text-primary">Download</div>
-                  <div className="text-xs text-text-secondary">Launcher</div>
-                </div>
-              </a>
+              <div className="px-2">
+                <DownloadButton />
+              </div>
             </div>
           </aside>
 
@@ -178,22 +166,7 @@ export default function Dashboard() {
                   </h2>
                   <div className="space-y-3">
                     <CopyIPButton />
-                    <a
-                      href="https://github.com/TheZackPack/TZP-launcher/releases/latest"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 w-full px-4 py-3 glass rounded-lg hover:border-accent/40 transition-all duration-200 text-left group"
-                    >
-                      <div className="w-8 h-8 rounded-md bg-primary/20 flex items-center justify-center text-accent">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-text-primary">Download Launcher</div>
-                        <div className="text-xs text-text-secondary">Latest release</div>
-                      </div>
-                    </a>
+                    <DownloadButton />
                   </div>
                 </div>
 
