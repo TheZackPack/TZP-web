@@ -16,10 +16,10 @@
   {
     "version": "1.1.9",
     "date": "2026-03-26",
-    "title": "Massive Balance Overhaul + 19 New Mods + Loot & EMC Expansion",
-    "summary": "Complete combat rebalance with Iron Golem overhaul, MineColonies siege warfare, Mowzie's Mobs 10x health/5x damage, vanilla spawn nerfs, 19 new mods, 44 custom loot tables, 19,720 EMC entries, and 116 quests across 6 chapters.",
+    "title": "Massive Balance Overhaul + 21 New Mods + Loot & EMC Expansion",
+    "summary": "Complete combat rebalance with Iron Golem overhaul, MineColonies siege warfare, Mowzie's Mobs 10x health/5x damage, vanilla spawn nerfs, 21 new mods (2 later removed in 1.1.9a), 44 custom loot tables, 19,720 EMC entries, and 116 quests across 6 chapters.",
     "changes": [
-      "--- NEW MODS (19 total) ---",
+      "--- NEW MODS (21 total, 2 removed in 1.1.9a) ---",
       "Twilight Forest — full adventure dimension with boss progression (Naga, Lich, Hydra, Ur-Ghast, and more)",
       "Ars Nouveau — complete spellcasting system with source gems, spell books, and enchanting apparatus",
       "Steam 'n' Rails — Create rail expansion with new track types, stations, and locomotives",
@@ -27,6 +27,7 @@
       "Born in Chaos — dozens of new hostile mobs that spawn at night for variety and challenge",
       "Universal Enchants — all enchantments can be applied to all gear types (sword enchants on axes, etc.)",
       "Better Weaponry — new weapon types including halberds, spears, daggers, and battleaxes via Better Combat",
+      "ImmediatelyFast + Dynamic FPS — client-side rendering and idle performance optimizations (especially for iGPU/laptop players)",
       "Curios API, Lootr, Explorer's Compass, Bosses of Mass Destruction, 4x YUNG's Better Structures, Friends & Foes, Toasty's Mobs, Traveler's Compass, Puzzles Lib",
       "--- COMBAT & BALANCE ---",
       "Iron Golems completely overhauled: 1,000 HP (10x), 20 armor, 6x movement speed, 20x attack speed, half size, permanent Regeneration I — they are now fearsome guardians",
@@ -63,6 +64,9 @@
       "Zombie reinforcement and spawner mobcaps now enforced — prevents entity spam lag",
       "Fast biome lookups and duplicate fluid tick cancellation enabled",
       "Chunk loading lag prevention enabled — smoother experience when exploring",
+      "--- FIXES ---",
+      "Fixed Biomes O' Plenty ocelot biome modifier crash — disabled broken bop_ocelot spawner that was crashing the server",
+      "Fixed Iron Golem buff crash — moved attribute overrides from KubeJS startup to datapack (KubeJS runs too early for entity attributes)",
       "--- SERVER ---",
       "Deploy script now includes automatic player warning countdown before restarts (30s with broadcasts, kicks, and save-all)",
       "Old TZP-bot service verified removed from VPS — no more random mob spawning"
@@ -81,7 +85,9 @@
       "Modded mob spawns fixed — Mowzie's Mobs datapack weights boosted 5-6x, spawn rates increased across all mob types",
       "Added 1,185 new EMC entries across 12 mods (total: 3,102) — xnet, minecolonies, Macaw's mods, upgrade_aquatic, and more",
       "Release tag verification added to CI — builds now fail if the Git tag does not match APP_VERSION",
-      "Windows Java 21 detection expanded with glob-based scanning for all major JDK distributions"
+      "Windows Java 21 detection expanded with glob-based scanning for all major JDK distributions",
+      "Fixed Windows MC launcher detection — added CurseForge bundled path, MSIX scanning, removed Bedrock URI fallback",
+      "Fixed manifest hash field mismatch — launcher now supports both sha256 and hash keys for backwards compatibility"
     ]
   },
   {
