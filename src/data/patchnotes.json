@@ -83,7 +83,10 @@
       "Removed particle effects, glass/transparency, and animated gradients for a cleaner look",
       "MineColonies: disease 10x rarer, guards buffed to 5x damage and 5x health",
       "Modded mob spawns fixed — Mowzie's Mobs datapack weights boosted 5-6x, spawn rates increased across all mob types",
+      "Added tzp_mob_spawns datapack — custom spawn rules for modded mobs across all biomes",
       "Added 1,185 new EMC entries across 12 mods (total: 3,102) — xnet, minecolonies, Macaw's mods, upgrade_aquatic, and more",
+      "server.properties excluded from VPS deploy — prevents test values overwriting production config",
+      "Added TZP infrastructure documentation — full runbook for VPS, CI/CD, and deployment",
       "Release tag verification added to CI — builds now fail if the Git tag does not match APP_VERSION",
       "Windows Java 21 detection expanded with glob-based scanning for all major JDK distributions",
       "Fixed Windows MC launcher detection — added CurseForge bundled path, MSIX scanning, removed Bedrock URI fallback",
@@ -101,8 +104,56 @@
     ]
   },
   {
-    "version": "1.1.0",
+    "version": "1.1.6",
     "date": "2026-03-25",
+    "title": "VPS Migration + CI/CD Pipeline",
+    "summary": "Migrated from PebbleHost to OVH VPS with full CI/CD auto-deploy, server restart safety, and JVM performance tuning.",
+    "changes": [
+      "Migrated server from PebbleHost to OVH VPS (15.204.117.31) — dedicated 6-core 12GB server with full SSH/root access",
+      "Built GitHub Actions CI/CD pipeline — pushing to TZP-server main auto-deploys to VPS via rsync + systemd restart",
+      "Added 15-second in-game countdown with chat broadcasts before every server restart — no more surprise disconnects",
+      "Added automatic save-all before every stop/restart — prevents inventory loss on restart",
+      "JVM tuning: G1GC with optimized heap, region sizing, and pause targets for modded MC",
+      "server.properties tuning: view distance, simulation distance, and entity tracking optimized",
+      "Added RCON console access script for remote server management",
+      "Fixed CI/CD rsync deleting world data — world/ directory now properly excluded from sync",
+      "Added reset-failed recovery to systemd service for automatic restart after crashes"
+    ]
+  },
+  {
+    "version": "1.1.5",
+    "date": "2026-03-24",
+    "title": "World Gen + EMC + Quest Polish",
+    "summary": "World generation rebalanced, ProjectE EMC system fixed, FTB Quests polished, and Biomes O' Plenty crash fix.",
+    "changes": [
+      "Fixed Biomes O' Plenty ocelot biome modifier crash — disabled broken bop_ocelot spawner",
+      "Rebalanced TerraBlender world generation — vanilla biome regions now favored over BoP to reduce biome spam",
+      "Fixed ProjectE custom_emc.json format — EMC entries were silently failing due to incorrect array structure",
+      "Fixed Blueprint data map override — must set replace:true or overrides get ignored",
+      "FTB Quests polished — quest paths, descriptions, and reward tables cleaned up",
+      "KubeJS title screen script added — custom TZP branding on main menu",
+      "KubeJS tips integration — modded gameplay tips appear on loading screens",
+      "Server world reset performed — fresh generation with corrected world gen weights",
+      "Enabled allow-flight in server.properties — jetpacks and creative flight now work without kicks"
+    ]
+  },
+  {
+    "version": "1.1.1",
+    "date": "2026-03-22",
+    "title": "Pack Parity + Infrastructure",
+    "summary": "Synced all server configs with client, added MineColonies documentation, and built deployment tooling.",
+    "changes": [
+      "Full config parity sync between client and server — all mod configs now match",
+      "Added MineColonies colony management documentation and tips",
+      "Added Refined Storage patch sources and config references",
+      "Built SFTP deploy scripts for PebbleHost (pre-VPS migration)",
+      "Added pull-sftp-log.sh for remote log fetching and error scanning",
+      "Mowzie's Mobs spawn datapack weights verified and documented"
+    ]
+  },
+  {
+    "version": "1.1.0",
+    "date": "2026-03-21",
     "title": "Custom Launcher + AI Overhaul",
     "changes": [
       "TZP Launcher: Custom launcher replaces CurseForge distribution",
