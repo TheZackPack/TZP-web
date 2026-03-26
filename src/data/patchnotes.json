@@ -1,5 +1,16 @@
 [
   {
+    "version": "1.1.9a",
+    "date": "2026-03-26",
+    "title": "HOTFIX: Silver Heron — Fix MineColonies client crash on startup",
+    "summary": "Fixes a crash caused by MineColonies reading config values before they are loaded, triggered by early menu music playback.",
+    "changes": [
+      "Fixed client crash: MineColonies onPlaySoundEvent accessing config before loaded (IllegalStateException)",
+      "Disabled FancyMenu early menu music to prevent race condition with mod config loading",
+      "Removed Hexerei mod — was causing 404 sync failures and client tick crashes"
+    ]
+  },
+  {
     "version": "1.1.9",
     "date": "2026-03-26",
     "title": "Massive Balance Overhaul + 21 New Mods + Loot & EMC Expansion",
