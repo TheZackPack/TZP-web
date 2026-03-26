@@ -7,7 +7,8 @@
     "changes": [
       "Fixed client crash: MineColonies onPlaySoundEvent accessing config before loaded (IllegalStateException)",
       "Disabled FancyMenu early menu music to prevent race condition with mod config loading",
-      "Removed Hexerei mod — was causing 404 sync failures and client tick crashes"
+      "Removed Hexerei mod — was causing 404 sync failures and client tick crashes",
+      "Removed Mekanism Turrets — incompatible with Mekanism 10.7.18 API (NoSuchMethodError on TileEntityTypeDeferredRegister)"
     ]
   },
   {
