@@ -1,5 +1,20 @@
 [
   {
+    "version": "1.1.9",
+    "date": "2026-03-26",
+    "title": "Content Expansion + EMC Sweep + Quest Overhaul",
+    "summary": "16 new mods including Twilight Forest, Ars Nouveau, and Steam 'n' Rails. EMC entries expanded from 3,102 to 19,142. Complete quest overhaul with 116 quests across 6 chapters.",
+    "changes": [
+      "16 new mods: Twilight Forest, Ars Nouveau, Chipped, Steam 'n' Rails, Curios API, Lootr, Explorer's Compass, Bosses of Mass Destruction, 4x YUNG's Better Structures, Friends & Foes, Hexerei, Toasty's Mobs, Traveler's Compass",
+      "EMC entries expanded 6x — from 3,102 to 19,142 entries across 80 mod namespaces",
+      "Full coverage for Create (892), Immersive Engineering (741), AE2 (360), Twilight Forest (751), Ars Nouveau (356), Chipped (6,973)",
+      "Quest overhaul — 18 quests expanded to 116 across 6 chapters including new Twilight Forest boss progression",
+      "New quest paths: Tech (25 quests), Magic (20), Exploration (19), Building (15), Twilight Forest (19)",
+      "NeoEssentials synced to VPS",
+      "Curios API enables accessory slots for Artifacts, Gobber, Tombstone, and Apotheosis"
+    ]
+  },
+  {
     "version": "1.1.8",
     "date": "2026-03-25",
     "title": "Visual Overhaul + Modpack Manager + Balance Pass",
