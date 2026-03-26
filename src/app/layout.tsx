@@ -23,7 +23,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="noise-overlay min-h-screen font-sans antialiased">
+      <body className="min-h-screen font-sans antialiased">
         {children}
       </body>
     </html>

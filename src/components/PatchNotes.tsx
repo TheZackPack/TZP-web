@@ -43,11 +43,11 @@ export default function PatchNotes({ limit }: PatchNotesProps) {
     return (
       <div className="space-y-4">
         {[1, 2].map((i) => (
-          <div key={i} className="glass rounded-lg p-6 animate-pulse">
-            <div className="h-6 bg-primary/20 rounded w-32 mb-4" />
+          <div key={i} className="surface rounded-lg p-6 animate-pulse">
+            <div className="h-6 bg-[#262626] rounded w-32 mb-4" />
             <div className="space-y-2">
-              <div className="h-4 bg-primary/10 rounded w-full" />
-              <div className="h-4 bg-primary/10 rounded w-3/4" />
+              <div className="h-4 bg-[#1a1a1a] rounded w-full" />
+              <div className="h-4 bg-[#1a1a1a] rounded w-3/4" />
             </div>
           </div>
         ))}
@@ -79,7 +79,7 @@ export default function PatchNotes({ limit }: PatchNotesProps) {
               >
                 <div
                   className={`timeline-dot ${
-                    isFirst ? "!bg-accent glow-purple" : ""
+                    isFirst ? "!bg-accent" : ""
                   }`}
                 />
               </div>
@@ -90,7 +90,7 @@ export default function PatchNotes({ limit }: PatchNotesProps) {
                   <span
                     className={`px-3 py-1 text-sm font-bold font-mono rounded-full ${
                       isFirst
-                        ? "bg-accent/20 text-accent glow-purple"
+                        ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
                         : "bg-primary/15 text-accent/80"
                     }`}
                   >
@@ -100,7 +100,7 @@ export default function PatchNotes({ limit }: PatchNotesProps) {
                     {note.date}
                   </span>
                   {isFirst && (
-                    <span className="px-2 py-0.5 text-[10px] uppercase tracking-wider font-mono rounded bg-accent/10 text-accent border border-accent/20">
+                    <span className="px-2 py-0.5 text-[10px] uppercase tracking-wider font-mono rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">
                       Latest
                     </span>
                   )}

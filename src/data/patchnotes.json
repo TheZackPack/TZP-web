@@ -1,5 +1,18 @@
 [
   {
+    "version": "1.1.8",
+    "date": "2026-03-25",
+    "title": "Visual Overhaul + Release Pipeline",
+    "summary": "Complete UI/UX overhaul of the website and launcher, modpack manager mode, and release pipeline hardening.",
+    "changes": [
+      "Launcher is now a modpack manager — syncs mods/configs, then you launch via the official Minecraft launcher (fixes online server auth)",
+      "New dark theme with blue accents across the entire website and launcher UI",
+      "Removed particle effects, glass/transparency, and animated gradients for a cleaner look",
+      "Flat, clean surfaces with subtle borders replace previous cyberpunk styling",
+      "Release tag verification added to CI — builds now fail if the Git tag does not match APP_VERSION"
+    ]
+  },
+  {
     "version": "1.1.0",
     "date": "2026-03-25",
     "changes": [

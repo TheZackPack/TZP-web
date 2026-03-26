@@ -1,13 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ServerStatus from "@/components/ServerStatus";
 import PatchNotes from "@/components/PatchNotes";
 import BugReportForm from "@/components/BugReportForm";
-import Particles from "@/components/Particles";
 import DownloadButton from "@/components/DownloadButton";
 
 type Tab = "overview" | "bugs" | "patches";
+type ClaimSession = {
+  sub: string;
+  role: string;
+  exp: number;
+};
+
+type AccountSession = {
+  accountId: string;
+  playerId: string;
+  minecraftUuid: string;
+  username: string;
+  displayName: string;
+};
+
+type Session = ClaimSession | AccountSession;
 
 const navItems: { id: Tab; label: string; icon: React.ReactNode }[] = [
   {
@@ -52,9 +66,9 @@ function CopyIPButton() {
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-3 w-full px-4 py-3 glass rounded-lg hover:border-accent/40 transition-all duration-200 text-left group"
+      className="flex items-center gap-3 w-full px-4 py-3 surface rounded-lg hover:border-accent/40 transition-all duration-200 text-left group"
     >
-      <div className="w-8 h-8 rounded-md bg-primary/20 flex items-center justify-center text-accent group-hover:glow-purple transition-shadow">
+      <div className="w-8 h-8 rounded-md bg-primary/20 flex items-center justify-center text-accent">
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
         </svg>
@@ -71,17 +85,187 @@ function CopyIPButton() {
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
+  const [session, setSession] = useState<Session | null>(null);
+  const [sessionLoading, setSessionLoading] = useState(true);
+  const [claimCode, setClaimCode] = useState("");
+  const [claimStatus, setClaimStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [claimMessage, setClaimMessage] = useState("");
+  const [crashTitle, setCrashTitle] = useState("");
+  const [crashDescription, setCrashDescription] = useState("");
+  const [crashLog, setCrashLog] = useState("");
+  const [crashStatus, setCrashStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [crashMessage, setCrashMessage] = useState("");
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadSession() {
+      try {
+        const res = await fetch("/api/session");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (mounted) {
+          setSession(data.session || null);
+        }
+      } catch {
+        if (mounted) {
+          setSession(null);
+        }
+      } finally {
+        if (mounted) {
+          setSessionLoading(false);
+        }
+      }
+    }
+
+    loadSession();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  async function handleClaimCode() {
+    if (!claimCode.trim()) {
+      setClaimStatus("error");
+      setClaimMessage("Enter a claim code to unlock reporting.");
+      return;
+    }
+
+    setClaimStatus("loading");
+    setClaimMessage("");
+    try {
+      const res = await fetch("/api/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: claimCode.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setClaimStatus("error");
+        setClaimMessage(data.error || "Claim code rejected.");
+        return;
+      }
+      setClaimStatus("success");
+      setClaimMessage("Access unlocked.");
+      setSession(data.session || null);
+      setClaimCode("");
+    } catch {
+      setClaimStatus("error");
+      setClaimMessage("Network error. Try again.");
+    }
+  }
+
+  async function handleCrashSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!crashTitle.trim() || !crashDescription.trim() || !crashLog.trim()) {
+      setCrashStatus("error");
+      setCrashMessage("Title, description, and log are required.");
+      return;
+    }
+    setCrashStatus("loading");
+    setCrashMessage("");
+    try {
+      const res = await fetch("/api/crash", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: crashTitle.trim(),
+          description: crashDescription.trim(),
+          log: crashLog.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setCrashStatus("error");
+        setCrashMessage(data.error || "Crash report failed.");
+        return;
+      }
+      setCrashStatus("success");
+      setCrashMessage(
+        data.reportId
+          ? `Crash report stored as ${data.reportId}.`
+          : "Crash report stored successfully.",
+      );
+      setCrashTitle("");
+      setCrashDescription("");
+      setCrashLog("");
+    } catch {
+      setCrashStatus("error");
+      setCrashMessage("Network error. Try again.");
+    }
+  }
+
+  function renderAccessCard() {
+    const isClaimSession =
+      session && "role" in session && typeof session.role === "string";
+    const expiresAt =
+      session && "exp" in session ? new Date(session.exp * 1000).toLocaleString() : "Managed";
+    const sessionLabel =
+      session && "displayName" in session
+        ? `${session.displayName} (${session.username})`
+        : session && "sub" in session
+          ? session.sub
+          : "Unknown";
+    return (
+      <div className="surface rounded-xl p-6 border border-[#262626]">
+        <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+          <span className="font-mono text-accent text-sm">02</span>
+          Access Pass
+        </h2>
+        <p className="text-sm text-text-secondary mb-4">
+          Claim codes unlock bug and crash reporting without making the dashboard private.
+        </p>
+        {sessionLoading ? (
+          <div className="text-sm text-text-secondary">Checking access...</div>
+        ) : session ? (
+          <div className="space-y-2">
+            <div className="text-sm text-text-primary">
+              Access unlocked for{" "}
+              <span className="text-accent">
+                {isClaimSession ? session.role : "account"}
+              </span>
+            </div>
+            <div className="text-xs text-text-secondary font-mono">
+              Session: {sessionLabel} · Expires: {expiresAt}
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              value={claimCode}
+              onChange={(e) => setClaimCode(e.target.value)}
+              placeholder="Enter claim code"
+              className="flex-1 px-3 py-2 rounded-lg bg-[#141414] border border-[#262626] text-text-primary focus:outline-none focus:border-accent"
+            />
+            <button
+              onClick={handleClaimCode}
+              disabled={claimStatus === "loading"}
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-500 transition-colors disabled:opacity-60"
+            >
+              {claimStatus === "loading" ? "Checking..." : "Redeem"}
+            </button>
+          </div>
+        )}
+        {claimMessage && (
+          <div
+            className={`mt-3 text-sm ${
+              claimStatus === "error" ? "text-red-400" : "text-green-400"
+            }`}
+          >
+            {claimMessage}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen relative">
-      <Particles />
-
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass-strong">
+      <nav className="fixed top-0 w-full z-50 surface-elevated">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a
             href="/"
-            className="text-2xl font-extrabold tracking-tight gradient-text-animated"
+            className="text-2xl font-extrabold tracking-tight text-white"
           >
             TZP
           </a>
@@ -121,7 +305,7 @@ export default function Dashboard() {
           </aside>
 
           {/* Mobile tab bar */}
-          <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 glass-strong border-t border-primary/20 flex justify-around py-2 px-4">
+          <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 surface-elevated border-t border-[#262626] flex justify-around py-2 px-4">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -150,7 +334,7 @@ export default function Dashboard() {
             {activeTab === "overview" && (
               <div className="space-y-8 animate-fade-in-up">
                 {/* Server Status */}
-                <div className="glass rounded-xl p-6 glow-border-animated">
+                <div className="surface rounded-xl p-6">
                   <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                     <span className="font-mono text-accent text-sm">01</span>
                     Server Status
@@ -158,10 +342,12 @@ export default function Dashboard() {
                   <ServerStatus />
                 </div>
 
+                {renderAccessCard()}
+
                 {/* Quick Actions (mobile) */}
-                <div className="lg:hidden glass rounded-xl p-6">
+                <div className="lg:hidden surface rounded-xl p-6">
                   <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <span className="font-mono text-accent text-sm">02</span>
+                    <span className="font-mono text-accent text-sm">03</span>
                     Quick Actions
                   </h2>
                   <div className="space-y-3">
@@ -171,9 +357,9 @@ export default function Dashboard() {
                 </div>
 
                 {/* Recent patches preview */}
-                <div className="glass rounded-xl p-6">
+                <div className="surface rounded-xl p-6">
                   <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <span className="font-mono text-accent text-sm">03</span>
+                    <span className="font-mono text-accent text-sm">04</span>
                     Recent Updates
                   </h2>
                   <PatchNotes limit={2} />
@@ -184,12 +370,69 @@ export default function Dashboard() {
             {/* Bug Report tab */}
             {activeTab === "bugs" && (
               <div className="max-w-2xl animate-fade-in-up">
-                <div className="glass rounded-xl p-8">
-                  <p className="text-text-secondary text-sm mb-6">
-                    Found something broken? Let us know. Supports Markdown in the description field.
-                  </p>
-                  <BugReportForm />
-                </div>
+                {!session ? (
+                  <div className="space-y-6">
+                    {renderAccessCard()}
+                    <div className="surface rounded-xl p-6 text-sm text-text-secondary">
+                      Bug and crash reports are gated behind claim codes. Redeem one above to
+                      unlock submissions.
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    <div className="surface rounded-xl p-8">
+                      <p className="text-text-secondary text-sm mb-6">
+                        Found something broken? Let us know. Supports Markdown in the description field.
+                      </p>
+                      <BugReportForm />
+                    </div>
+
+                    <form onSubmit={handleCrashSubmit} className="surface rounded-xl p-8 space-y-4">
+                      <div>
+                        <h2 className="text-lg font-semibold mb-2">Crash Report</h2>
+                        <p className="text-text-secondary text-sm">
+                          Paste the crash log and a short description. This stores an internal crash report tied to your TZP account.
+                        </p>
+                      </div>
+                      <input
+                        value={crashTitle}
+                        onChange={(e) => setCrashTitle(e.target.value)}
+                        placeholder="Crash title"
+                        className="w-full px-3 py-2 rounded-lg bg-[#141414] border border-[#262626] text-text-primary focus:outline-none focus:border-accent"
+                      />
+                      <textarea
+                        value={crashDescription}
+                        onChange={(e) => setCrashDescription(e.target.value)}
+                        placeholder="What happened right before the crash?"
+                        rows={4}
+                        className="w-full px-3 py-2 rounded-lg bg-[#141414] border border-[#262626] text-text-primary focus:outline-none focus:border-accent"
+                      />
+                      <textarea
+                        value={crashLog}
+                        onChange={(e) => setCrashLog(e.target.value)}
+                        placeholder="Paste crash log here"
+                        rows={6}
+                        className="w-full px-3 py-2 rounded-lg bg-[#141414] border border-[#262626] text-text-primary font-mono text-xs focus:outline-none focus:border-accent"
+                      />
+                      <button
+                        type="submit"
+                        disabled={crashStatus === "loading"}
+                        className="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-500 transition-colors disabled:opacity-60"
+                      >
+                        {crashStatus === "loading" ? "Submitting..." : "Submit Crash Report"}
+                      </button>
+                      {crashMessage && (
+                        <div
+                          className={`text-sm ${
+                            crashStatus === "error" ? "text-red-400" : "text-green-400"
+                          }`}
+                        >
+                          {crashMessage}
+                        </div>
+                      )}
+                    </form>
+                  </div>
+                )}
               </div>
             )}
 

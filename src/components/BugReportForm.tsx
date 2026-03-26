@@ -1,19 +1,90 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
+type SessionPayload = {
+  authenticated: boolean;
+  configured?: boolean;
+};
+type ModCatalogEntry = {
+  modId: string;
+  displayName: string;
+};
+type ItemCatalogEntry = {
+  itemId: string;
+  displayName: string;
+};
 
 const DESC_MAX = 5000;
 
 export default function BugReportForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [launcherVersion, setLauncherVersion] = useState("");
+  const [packVersion, setPackVersion] = useState("");
+  const [selectedMods, setSelectedMods] = useState<string[]>([]);
+  const [selectedItemId, setSelectedItemId] = useState("");
+  const [selectedItemOther, setSelectedItemOther] = useState("");
+  const [otherContext, setOtherContext] = useState("");
+  const [mods, setMods] = useState<ModCatalogEntry[]>([]);
+  const [items, setItems] = useState<ItemCatalogEntry[]>([]);
+  const [session, setSession] = useState<SessionPayload | null>(null);
   const [status, setStatus] = useState<FormStatus>("idle");
   const [message, setMessage] = useState("");
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  useEffect(() => {
+    let active = true;
+
+    async function loadContext() {
+      try {
+        const sessionResponse = await fetch("/api/session", {
+          credentials: "include",
+        });
+        const sessionPayload = (await sessionResponse.json()) as SessionPayload;
+        if (active) {
+          setSession(sessionPayload);
+        }
+
+        const modsResponse = await fetch("/api/mods");
+        const modsPayload = await modsResponse.json();
+        if (active) {
+          setMods(Array.isArray(modsPayload.mods) ? modsPayload.mods : []);
+          if (modsPayload.packVersion) {
+            setPackVersion((current) => current || modsPayload.packVersion);
+            const itemsResponse = await fetch(
+              `/api/items?packVersion=${encodeURIComponent(modsPayload.packVersion)}`,
+            );
+            const itemsPayload = await itemsResponse.json();
+            if (active) {
+              setItems(Array.isArray(itemsPayload.items) ? itemsPayload.items : []);
+            }
+          }
+        }
+      } catch {
+        if (active) {
+          setSession({ authenticated: false, configured: false });
+          setMods([]);
+          setItems([]);
+        }
+      }
+    }
+
+    loadContext();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+
+    if (!session?.authenticated) {
+      setStatus("error");
+      setMessage("Redeem a claim code from the dashboard before filing bug reports.");
+      return;
+    }
 
     if (!title.trim() || !description.trim()) {
       setStatus("error");
@@ -25,22 +96,37 @@ export default function BugReportForm() {
     setMessage("");
 
     try {
-      const res = await fetch(`/api/bugs`, {
+      const response = await fetch("/api/bugs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           title: title.trim(),
           description: description.trim(),
+          launcherVersion: launcherVersion.trim(),
+          packVersion: packVersion.trim(),
+          selectedMods,
+          selectedItemId: selectedItemId === "__other__" ? null : selectedItemId || null,
+          selectedItemOther: selectedItemId === "__other__" ? selectedItemOther.trim() : null,
+          otherContext: otherContext.trim() || null,
         }),
       });
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (res.ok) {
+      if (response.ok) {
         setStatus("success");
-        setMessage(`Bug report #${data.issueNumber} created successfully.`);
+        setMessage(
+          data.mirrored?.issueNumber
+            ? `Bug report saved and mirrored to GitHub issue #${data.mirrored.issueNumber}.`
+            : "Bug report saved successfully.",
+        );
         setTitle("");
         setDescription("");
+        setSelectedMods([]);
+        setSelectedItemId("");
+        setSelectedItemOther("");
+        setOtherContext("");
       } else {
         setStatus("error");
         setMessage(data.error || "Failed to submit bug report.");
@@ -53,16 +139,9 @@ export default function BugReportForm() {
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-center justify-center py-8 space-y-4">
-        {/* Animated checkmark */}
-        <div className="w-16 h-16 rounded-full bg-green-400/10 border-2 border-green-400/40 flex items-center justify-center">
-          <svg
-            className="w-8 h-8 text-green-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            strokeWidth={2.5}
-          >
+      <div className="flex flex-col items-center justify-center space-y-4 py-8">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-green-400/40 bg-green-400/10">
+          <svg className="h-8 w-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -75,10 +154,10 @@ export default function BugReportForm() {
             />
           </svg>
         </div>
-        <p className="text-green-400 font-medium text-center">{message}</p>
+        <p className="text-center font-medium text-green-400">{message}</p>
         <button
           onClick={() => setStatus("idle")}
-          className="text-sm text-accent hover:text-accent/80 font-mono transition-colors"
+          className="font-mono text-sm text-accent transition-colors hover:text-accent/80"
         >
           Submit another
         </button>
@@ -88,26 +167,117 @@ export default function BugReportForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Title field */}
-      <div className="floating-input-group">
-        <input
-          id="bug-title"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
-          maxLength={200}
-        />
-        <label htmlFor="bug-title">Title</label>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="floating-input-group">
+          <input
+            id="bug-title"
+            type="text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            placeholder="Title"
+            maxLength={200}
+          />
+          <label htmlFor="bug-title">Title</label>
+        </div>
+
+        <div className="floating-input-group">
+          <input
+            value={launcherVersion}
+            onChange={(event) => setLauncherVersion(event.target.value)}
+            placeholder="Launcher version"
+          />
+          <label>Launcher Version</label>
+        </div>
       </div>
 
-      {/* Description field */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="floating-input-group">
+          <input
+            value={packVersion}
+            onChange={(event) => setPackVersion(event.target.value)}
+            placeholder="Pack version"
+          />
+          <label>Pack Version</label>
+        </div>
+
+        <div className="rounded-lg border border-[#262626] bg-[#141414] px-4 py-3">
+          <label className="mb-2 block text-[11px] font-mono uppercase tracking-wider text-text-secondary/60">
+            Affected Item / Block
+          </label>
+          <select
+            value={selectedItemId}
+            onChange={(event) => setSelectedItemId(event.target.value)}
+            className="w-full bg-transparent text-sm text-text-primary outline-none"
+          >
+            <option value="">Select an item or block</option>
+            {items.map((item) => (
+              <option key={item.itemId} value={item.itemId}>
+                {item.displayName}
+              </option>
+            ))}
+            <option value="__other__">Other</option>
+          </select>
+        </div>
+      </div>
+
+      {selectedItemId === "__other__" ? (
+        <div className="floating-input-group">
+          <input
+            value={selectedItemOther}
+            onChange={(event) => setSelectedItemOther(event.target.value)}
+            placeholder="Other item or block"
+          />
+          <label>Other Item / Block</label>
+        </div>
+      ) : null}
+
+      <div className="rounded-lg border border-[#262626] bg-[#141414] px-4 py-3">
+        <label className="mb-3 block text-[11px] font-mono uppercase tracking-wider text-text-secondary/60">
+          Related Mods
+        </label>
+        <div className="grid max-h-44 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+          {mods.map((mod) => {
+            const checked = selectedMods.includes(mod.modId);
+            return (
+              <label key={mod.modId} className="flex items-center gap-2 text-sm text-text-secondary">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={(event) =>
+                    setSelectedMods((current) =>
+                      event.target.checked
+                        ? [...current, mod.modId]
+                        : current.filter((entry) => entry !== mod.modId),
+                    )
+                  }
+                />
+                <span>{mod.displayName}</span>
+              </label>
+            );
+          })}
+          <label className="flex items-center gap-2 text-sm text-text-secondary">
+            <input
+              type="checkbox"
+              checked={selectedMods.includes("__other__")}
+              onChange={(event) =>
+                setSelectedMods((current) =>
+                  event.target.checked
+                    ? [...current, "__other__"]
+                    : current.filter((entry) => entry !== "__other__"),
+                )
+              }
+            />
+            <span>Other / missing mod</span>
+          </label>
+        </div>
+      </div>
+
       <div>
         <div className="floating-input-group">
           <textarea
             id="bug-desc"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(event) => setDescription(event.target.value)}
             placeholder="Description"
             rows={5}
             maxLength={DESC_MAX}
@@ -115,15 +285,11 @@ export default function BugReportForm() {
           />
           <label htmlFor="bug-desc">Description</label>
         </div>
-        <div className="flex items-center justify-between mt-1.5 px-1">
-          <span className="text-[11px] text-text-secondary/50 font-mono">
-            Supports Markdown
-          </span>
+        <div className="mt-1.5 flex items-center justify-between px-1">
+          <span className="text-[11px] font-mono text-text-secondary/50">Supports Markdown</span>
           <span
             className={`text-[11px] font-mono ${
-              description.length > DESC_MAX * 0.9
-                ? "text-red-400"
-                : "text-text-secondary/50"
+              description.length > DESC_MAX * 0.9 ? "text-red-400" : "text-text-secondary/50"
             }`}
           >
             {description.length} / {DESC_MAX}
@@ -131,49 +297,28 @@ export default function BugReportForm() {
         </div>
       </div>
 
-      {/* Submit button */}
+      <div className="floating-input-group">
+        <textarea
+          value={otherContext}
+          onChange={(event) => setOtherContext(event.target.value)}
+          placeholder="Extra context"
+          rows={3}
+          style={{ resize: "none" }}
+        />
+        <label>Extra Context</label>
+      </div>
+
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full px-4 py-3 bg-primary hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium text-sm rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 glow-purple"
+        className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {status === "submitting" ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg
-              className="w-4 h-4 animate-spin"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-            Submitting...
-          </span>
-        ) : (
-          "Submit Bug Report"
-        )}
+        {status === "submitting" ? "Submitting..." : "Submit Bug Report"}
       </button>
 
-      {/* Error message */}
-      {status === "error" && message && (
-        <div className="flex items-start gap-2 p-3 rounded-lg bg-red-400/10 border border-red-400/20">
-          <svg
-            className="w-4 h-4 text-red-400 mt-0.5 shrink-0"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+      {status === "error" && message ? (
+        <div className="flex items-start gap-2 rounded-lg border border-red-400/20 bg-red-400/10 p-3">
+          <svg className="mt-0.5 h-4 w-4 shrink-0 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -183,7 +328,7 @@ export default function BugReportForm() {
           </svg>
           <p className="text-sm text-red-400">{message}</p>
         </div>
-      )}
+      ) : null}
     </form>
   );
 }

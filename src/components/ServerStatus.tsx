@@ -51,10 +51,10 @@ export default function ServerStatus({ compact = false }: ServerStatusProps) {
     return (
       <div className="flex items-center gap-2">
         <div
-          className={`w-2.5 h-2.5 rounded-full ${
+          className={`w-2 h-2 rounded-full ${
             online
-              ? "bg-green-400 pulse-dot shadow-[0_0_8px_rgba(74,222,128,0.6)]"
-              : "bg-red-400"
+              ? "bg-green-500"
+              : "bg-red-500"
           }`}
         />
         <span className="text-xs text-text-secondary font-mono">
@@ -68,18 +68,13 @@ export default function ServerStatus({ compact = false }: ServerStatusProps) {
     <div className="space-y-5">
       {/* Status header */}
       <div className="flex items-center gap-3">
-        <div className="relative">
-          <div
-            className={`w-4 h-4 rounded-full ${
-              online
-                ? "bg-green-400 pulse-dot"
-                : "bg-red-400"
-            }`}
-          />
-          {online && (
-            <div className="absolute inset-0 w-4 h-4 rounded-full bg-green-400/30 animate-ping" />
-          )}
-        </div>
+        <div
+          className={`w-2 h-2 rounded-full ${
+            online
+              ? "bg-green-500"
+              : "bg-red-500"
+          }`}
+        />
         <span className="text-lg font-semibold">
           {online ? "Server Online" : "Server Offline"}
         </span>
@@ -94,7 +89,7 @@ export default function ServerStatus({ compact = false }: ServerStatusProps) {
         <>
           {/* Stats grid */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-surface-light/50 rounded-lg p-4 border border-primary/10">
+            <div className="bg-[#141414] rounded-lg p-4 border border-[#262626]">
               <div className="text-text-secondary text-xs uppercase tracking-wide mb-1.5 font-mono">
                 Players
               </div>
@@ -103,7 +98,7 @@ export default function ServerStatus({ compact = false }: ServerStatusProps) {
                 <span className="text-text-secondary/60"> / {status.players.max}</span>
               </div>
             </div>
-            <div className="bg-surface-light/50 rounded-lg p-4 border border-primary/10">
+            <div className="bg-[#141414] rounded-lg p-4 border border-[#262626]">
               <div className="text-text-secondary text-xs uppercase tracking-wide mb-1.5 font-mono">
                 Version
               </div>
@@ -123,7 +118,7 @@ export default function ServerStatus({ compact = false }: ServerStatusProps) {
                 {status.players.list.map((name) => (
                   <div
                     key={name}
-                    className="flex items-center gap-2 bg-surface-light/50 rounded-lg px-3 py-2 border border-primary/10"
+                    className="flex items-center gap-2 bg-[#141414] rounded-lg px-3 py-2 border border-[#262626]"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -143,7 +138,7 @@ export default function ServerStatus({ compact = false }: ServerStatusProps) {
       )}
 
       {/* IP */}
-      <div className="flex items-center gap-2 text-xs text-text-secondary font-mono pt-1 border-t border-primary/10">
+      <div className="flex items-center gap-2 text-xs text-text-secondary font-mono pt-1 border-t border-[#262626]">
         <span className="text-accent/60">$</span>
         <span>connect 15.204.117.31 // NeoForge 1.21.1</span>
       </div>

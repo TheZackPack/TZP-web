@@ -50,8 +50,8 @@ export default function DownloadButton() {
               href={file}
               className={`group relative flex items-center gap-4 rounded-2xl border px-5 py-4 transition-all duration-300 ${
                 key === detected
-                  ? "border-accent/50 bg-primary/18 text-white shadow-lg shadow-primary/25"
-                  : "border-primary/20 bg-surface/60 text-text-primary hover:border-accent/40 hover:bg-surface"
+                  ? "border-blue-500/50 bg-blue-600/10 text-white"
+                  : "border-[#262626] bg-[#141414] text-text-primary hover:border-blue-500/40 hover:bg-[#1a1a1a]"
               }`}
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-black/20 text-lg font-bold tracking-[0.25em]">
@@ -73,7 +73,7 @@ export default function DownloadButton() {
           ))}
         </div>
 
-        <div className="rounded-2xl border border-primary/15 bg-black/20 px-5 py-4 text-left">
+        <div className="rounded-2xl border border-[#262626] bg-[#141414] px-5 py-4 text-left">
           <p className="text-sm font-medium text-text-primary">
             Windows is the only officially packaged platform.
           </p>
@@ -114,7 +114,7 @@ export default function DownloadButton() {
   return (
     <button
       onClick={() => setShowPicker(true)}
-      className="group relative inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3.5 font-semibold text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:bg-accent hover:shadow-accent/40 hover:shadow-xl glow-purple cursor-pointer"
+      className="group relative inline-flex items-center gap-2 rounded-lg bg-blue-600 px-8 py-3.5 font-semibold text-white transition-all duration-300 hover:bg-blue-500 cursor-pointer"
     >
       <span className="relative z-10 flex items-center gap-2">
         <svg

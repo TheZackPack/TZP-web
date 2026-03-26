@@ -1,6 +1,5 @@
 import ServerStatus from "@/components/ServerStatus";
 import PatchNotes from "@/components/PatchNotes";
-import Particles from "@/components/Particles";
 import DownloadButton from "@/components/DownloadButton";
 
 const features = [
@@ -46,12 +45,10 @@ const stats = [
 export default function Home() {
   return (
     <main className="min-h-screen relative">
-      <Particles />
-
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass-strong">
+      <nav className="fixed top-0 w-full z-50 surface-elevated">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <span className="text-2xl font-extrabold tracking-tight gradient-text-animated">
+          <span className="text-2xl font-extrabold tracking-tight text-white">
             TZP
           </span>
           <div className="flex items-center gap-6">
@@ -68,13 +65,8 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center pt-20">
-        {/* Background radial glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--color-primary)_0%,_transparent_70%)] opacity-10" />
-        {/* Secondary glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-nether)_0%,_transparent_50%)] opacity-5" />
-
         <div className="relative z-10">
-          <h1 className="text-8xl md:text-9xl font-black tracking-tighter gradient-text-animated animate-fade-in-up">
+          <h1 className="text-8xl md:text-9xl font-black tracking-tighter text-white animate-fade-in-up">
             TZP
           </h1>
 
@@ -87,7 +79,7 @@ export default function Home() {
             <DownloadButton />
             <a
               href="/dashboard"
-              className="px-8 py-3.5 glass rounded-lg text-text-primary hover:text-accent font-semibold transition-all duration-300 hover:border-accent/40"
+              className="px-8 py-3.5 surface rounded-lg text-text-primary hover:text-accent font-semibold transition-all duration-300 hover:border-accent/40"
             >
               View Dashboard
             </a>
@@ -111,18 +103,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg className="w-5 h-5 text-text-secondary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7" />
-          </svg>
-        </div>
       </section>
 
       {/* Features */}
       <section className="max-w-6xl mx-auto px-6 py-24 relative z-10">
         <h2 className="text-3xl font-bold text-center mb-4">
-          Why <span className="gradient-text-animated">TZP</span>?
+          Why <span className="text-white font-bold">TZP</span>?
         </h2>
         <p className="text-text-secondary text-center mb-16 max-w-xl mx-auto">
           Not your average modded server. Every detail is curated for the ultimate experience.
@@ -131,9 +117,9 @@ export default function Home() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="glass rounded-xl p-8 card-hover group"
+              className="surface rounded-xl p-8 card-hover group"
             >
-              <div className="w-14 h-14 bg-primary/20 text-accent rounded-lg flex items-center justify-center mb-5 group-hover:glow-purple transition-shadow duration-300">
+              <div className="w-14 h-14 bg-primary/20 text-accent rounded-lg flex items-center justify-center mb-5">
                 {feature.icon}
               </div>
               <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
@@ -153,11 +139,11 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-primary/10 mt-12">
+      <footer className="relative z-10 border-t border-[#262626] mt-12">
         <div className="max-w-6xl mx-auto px-6 py-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-lg font-bold gradient-text-animated">TZP</span>
+              <span className="text-lg font-bold text-white">TZP</span>
               <span className="text-sm text-text-secondary">
                 Modded Minecraft &mdash; NeoForge 1.21.1
               </span>
@@ -188,7 +174,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="mt-6 pt-6 border-t border-primary/10 text-center">
+          <div className="mt-6 pt-6 border-t border-[#262626] text-center">
             <span className="text-xs text-text-secondary/60 font-mono">
               Built by NightMoon_ // Powered by chaos
             </span>
