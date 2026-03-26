@@ -2,38 +2,56 @@
   {
     "version": "1.1.8",
     "date": "2026-03-25",
-    "title": "Visual Overhaul + Release Pipeline",
-    "summary": "Complete UI/UX overhaul of the website and launcher, modpack manager mode, and release pipeline hardening.",
+    "title": "Visual Overhaul + Modpack Manager + Balance Pass",
+    "summary": "Major UI/UX overhaul, launcher converted to modpack manager with MC launcher integration, MineColonies buffs, modded mob spawn fixes, and 1,185 new EMC entries.",
     "changes": [
-      "Launcher is now a modpack manager — syncs mods/configs, then you launch via the official Minecraft launcher (fixes online server auth)",
-      "New dark theme with blue accents across the entire website and launcher UI",
+      "Launcher is now a modpack manager — syncs mods/configs, creates a TZP profile in the official Minecraft launcher, and launches it automatically",
+      "New dark theme with blue accents across the entire website and launcher UI (inspired by Cursor/Warp.dev)",
       "Removed particle effects, glass/transparency, and animated gradients for a cleaner look",
-      "Flat, clean surfaces with subtle borders replace previous cyberpunk styling",
-      "Release tag verification added to CI — builds now fail if the Git tag does not match APP_VERSION"
+      "MineColonies: disease 10x rarer, guards buffed to 5x damage and 5x health",
+      "Modded mob spawns fixed — Mowzie's Mobs datapack weights boosted 5-6x, spawn rates increased across all mob types",
+      "Added 1,185 new EMC entries across 12 mods (total: 3,102) — xnet, minecolonies, Macaw's mods, upgrade_aquatic, and more",
+      "Release tag verification added to CI — builds now fail if the Git tag does not match APP_VERSION",
+      "Windows Java 21 detection expanded with glob-based scanning for all major JDK distributions"
+    ]
+  },
+  {
+    "version": "1.1.7",
+    "date": "2026-03-25",
+    "title": "Java Fix + Live Log",
+    "changes": [
+      "Fixed NeoForge install failing on macOS — now passes explicit Java 21 path instead of falling back to system Java",
+      "Added live Log tab for real-time launcher/update/install event debugging",
+      "Pack sync is now explicit — no more auto-download on startup"
     ]
   },
   {
     "version": "1.1.0",
     "date": "2026-03-25",
+    "title": "Custom Launcher + AI Overhaul",
     "changes": [
-      "MadGod v2: Event-based AI system replaces always-on chaos",
-      "TZP Launcher: Custom launcher replaces CurseForge",
-      "Website dashboard with bug reports and patch notes",
+      "TZP Launcher: Custom launcher replaces CurseForge distribution",
+      "Website dashboard with bug reports, crash reports, and patch notes",
+      "Claim code auth system for dashboard access",
+      "Manifest-based modpack sync with SHA256 verification",
       "Fixed diamond/netherite zombie spam from NightmareMode",
-      "Added Curios API for Gobber accessories",
       "Fixed AFK disconnect (/afk now prevents idle kick)",
       "Added 595 EMC entries (up from 8)",
       "3 new performance mods: C2ME, Noisium, ServerCore",
-      "Hard difficulty enabled"
+      "Hard difficulty enabled",
+      "11 FTB Quest chapters added"
     ]
   },
   {
     "version": "1.0.0",
     "date": "2026-03-20",
+    "title": "Initial Release",
     "changes": [
-      "Initial release: 170+ mods, MadGod AI companion",
-      "NeoForge 1.21.1 with MineColonies, Mekanism, Create, and more",
-      "Custom TZP Vanilla Bridge mod for server integration"
+      "Initial release: 172 mods on NeoForge 1.21.1",
+      "MadGod AI companion with RCON + HTTP bridge integration",
+      "MineColonies, Mekanism, Create, ProjectE, Gobber, and more",
+      "Custom TZP Vanilla Bridge mod for server integration",
+      "Mowzie's Mobs with custom biome spawn datapacks"
     ]
   }
 ]
