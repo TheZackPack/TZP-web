@@ -153,3 +153,12 @@ CREATE TABLE IF NOT EXISTS madgod_story_arcs (
     started_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS link_tokens (
+    token TEXT PRIMARY KEY,
+    minecraft_uuid TEXT NOT NULL,
+    minecraft_username TEXT NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL,
+    redeemed BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);

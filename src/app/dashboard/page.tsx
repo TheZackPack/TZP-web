@@ -364,7 +364,7 @@ function DownloadsSection() {
           Self-host TZP on your own machine. All configs, scripts, and a clean world included.
         </p>
         <a
-          href="https://github.com/Zack-Grogan/TZP-server/releases/latest"
+          href="https://github.com/TheZackPack/TZP-server/releases/latest"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#262626] bg-[#141414] text-text-primary hover:border-white/20 transition-all text-sm font-medium"
@@ -413,62 +413,34 @@ function DownloadsSection() {
   );
 }
 
-// ── Access / claim card ──────────────────────────────────────────────────────
+// ── Link Account Card ────────────────────────────────────────────────────────
 
-function AccessCard({
-  session,
-  sessionLoading,
-  claimCode,
-  setClaimCode,
-  claimStatus,
-  claimMessage,
-  handleClaimCode,
-}: {
-  session: Session | null;
-  sessionLoading: boolean;
-  claimCode: string;
-  setClaimCode: (v: string) => void;
-  claimStatus: "idle" | "loading" | "success" | "error";
-  claimMessage: string;
-  handleClaimCode: () => void;
-}) {
-  const isClaimSession = session && "role" in session;
-
+function LinkAccountCard() {
   return (
-    <div className="surface rounded-xl p-6 border border-[#262626]">
-      <h3 className="text-base font-semibold mb-2 text-white">Access Pass</h3>
-      <p className="text-sm text-text-secondary mb-4">
-        Claim codes unlock bug reporting.
+    <div className="surface rounded-xl p-8 border border-[#262626] text-center">
+      <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+        <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+        </svg>
+      </div>
+      <h3 className="text-lg font-semibold text-white mb-2">Link Your Minecraft Account</h3>
+      <p className="text-sm text-text-secondary mb-6">
+        Bug reporting requires a linked Minecraft account. It takes 10 seconds:
       </p>
-      {sessionLoading ? (
-        <div className="text-sm text-text-secondary">Checking access...</div>
-      ) : session ? (
-        <div className="text-sm text-green-400">
-          Access unlocked ({isClaimSession ? (session as ClaimSession).role : "account"})
-        </div>
-      ) : (
-        <div className="flex gap-3">
-          <input
-            value={claimCode}
-            onChange={(e) => setClaimCode(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleClaimCode()}
-            placeholder="Enter claim code"
-            className="flex-1 px-3 py-2 rounded-lg bg-[#141414] border border-[#262626] text-text-primary focus:outline-none focus:border-accent text-sm"
-          />
-          <button
-            onClick={handleClaimCode}
-            disabled={claimStatus === "loading"}
-            className="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-500 transition-colors disabled:opacity-60 text-sm"
-          >
-            {claimStatus === "loading" ? "..." : "Redeem"}
-          </button>
-        </div>
-      )}
-      {claimMessage && (
-        <div className={`mt-2 text-sm ${claimStatus === "error" ? "text-red-400" : "text-green-400"}`}>
-          {claimMessage}
-        </div>
-      )}
+      <ol className="text-left text-sm text-text-secondary space-y-3 max-w-xs mx-auto">
+        <li className="flex items-start gap-3">
+          <span className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center text-xs font-bold text-accent shrink-0 mt-0.5">1</span>
+          <span>Join the TZP Minecraft server</span>
+        </li>
+        <li className="flex items-start gap-3">
+          <span className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center text-xs font-bold text-accent shrink-0 mt-0.5">2</span>
+          <span>Type <code className="px-1.5 py-0.5 rounded bg-[#262626] font-mono text-xs text-accent">/link</code> in chat</span>
+        </li>
+        <li className="flex items-start gap-3">
+          <span className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center text-xs font-bold text-accent shrink-0 mt-0.5">3</span>
+          <span>Click the link you receive</span>
+        </li>
+      </ol>
     </div>
   );
 }
@@ -479,9 +451,6 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [session, setSession] = useState<Session | null>(null);
   const [sessionLoading, setSessionLoading] = useState(true);
-  const [claimCode, setClaimCode] = useState("");
-  const [claimStatus, setClaimStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [claimMessage, setClaimMessage] = useState("");
   const [crashTitle, setCrashTitle] = useState("");
   const [crashDescription, setCrashDescription] = useState("");
   const [crashLog, setCrashLog] = useState("");
@@ -506,36 +475,6 @@ export default function Dashboard() {
     loadSession();
     return () => { mounted = false; };
   }, []);
-
-  async function handleClaimCode() {
-    if (!claimCode.trim()) {
-      setClaimStatus("error");
-      setClaimMessage("Enter a claim code.");
-      return;
-    }
-    setClaimStatus("loading");
-    setClaimMessage("");
-    try {
-      const res = await fetch("/api/claim", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: claimCode.trim() }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setClaimStatus("error");
-        setClaimMessage(data.error || "Invalid code.");
-        return;
-      }
-      setClaimStatus("success");
-      setClaimMessage("Access unlocked.");
-      setSession(data.session || null);
-      setClaimCode("");
-    } catch {
-      setClaimStatus("error");
-      setClaimMessage("Network error.");
-    }
-  }
 
   async function handleCrashSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -629,17 +568,6 @@ export default function Dashboard() {
               ))}
             </div>
 
-            {/* Access Pass */}
-            <AccessCard
-              session={session}
-              sessionLoading={sessionLoading}
-              claimCode={claimCode}
-              setClaimCode={setClaimCode}
-              claimStatus={claimStatus}
-              claimMessage={claimMessage}
-              handleClaimCode={handleClaimCode}
-            />
-
             {/* MadGod preview */}
             <div className="surface rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
@@ -717,21 +645,13 @@ export default function Dashboard() {
               </p>
             </div>
 
-            {!session ? (
-              <div className="space-y-6">
-                <AccessCard
-                  session={session}
-                  sessionLoading={sessionLoading}
-                  claimCode={claimCode}
-                  setClaimCode={setClaimCode}
-                  claimStatus={claimStatus}
-                  claimMessage={claimMessage}
-                  handleClaimCode={handleClaimCode}
-                />
-                <div className="surface rounded-xl p-6 text-sm text-text-secondary">
-                  Redeem a claim code above to unlock bug and crash reporting.
-                </div>
+            {sessionLoading ? (
+              <div className="surface rounded-xl p-8 text-center text-text-secondary">
+                <div className="w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin mx-auto mb-3" />
+                <p className="text-sm">Checking account...</p>
               </div>
+            ) : !session ? (
+              <LinkAccountCard />
             ) : (
               <div className="space-y-6">
                 <div className="surface rounded-xl p-6">
