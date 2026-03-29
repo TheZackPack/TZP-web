@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 
+type ChangeEntry = { category: string; text: string } | string;
+
 interface PatchNote {
   version: string;
   date: string;
-  changes: string[];
+  changes: ChangeEntry[];
 }
 
 interface PatchNotesProps {
@@ -117,7 +119,9 @@ export default function PatchNotes({ limit }: PatchNotesProps) {
                         }}
                       >
                         <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                        <span className="text-text-primary">{change}</span>
+                        <span className="text-text-primary">
+                          {typeof change === "string" ? change : change.text}
+                        </span>
                       </li>
                     )
                   )}
