@@ -1,1 +1,45 @@
-[]
+[
+  {
+    "version": "2.0.0-beta",
+    "date": "2026-03-29",
+    "title": "The Big One — Beta Server",
+    "type": "major",
+    "changes": [
+      "--- MOB BALANCE ---",
+      "Dimension scaling: Overworld 1x, Nether 1.5x HP/1.25x DMG, End 2x/1.5x, Twilight Forest 2.5x/2x, Undergarden 1.75x/1.5x",
+      "Vanilla hostile spawns un-nerfed: zombie 95, skeleton 100, spider 100, creeper 100 (were 30-40)",
+      "Spawn distance: minimum 40 blocks from player (was 8 — way too close)",
+      "ServerCore mob cap raised to 120% with 60% floor",
+      "Iron Golem rebalanced: 750HP (was 1000), 18 armor (was 20), 4x speed (was 6x)",
+      "--- MINECOLONIES ---",
+      "Max citizens: 300 (was 250)",
+      "Raid difficulty: 10/10 (was 8), up to 150 raiders per wave (was 100)",
+      "Raids every 5-7 nights (was 7-10)",
+      "Raiders can break doors now",
+      "Guard health/damage multiplier: 10x (was 15x — slightly dialed back)",
+      "--- EMC ECONOMY ---",
+      "25% transmutation tax on all EMC burning (covalenceLoss = 0.75)",
+      "NeoEssentials currency renamed to EMC, starting balance 1000",
+      "/sacrifice command: offer EMC to MadGod for tiered rewards (1K to 5M+ EMC)",
+      "logFoundExploits enabled — server logs any EMC generation exploits on boot",
+      "--- PERMISSIONS ---",
+      "Player commands: /home (max 3, 30s cooldown), /tpa, /back (on death), /spawn (60s cooldown), /warp (use only)",
+      "Dangerous commands double-blocked: /time and similar restricted to OP only",
+      "/home cooldown raised: 5s → 30s, /spawn: 5s → 60s",
+      "--- PERFORMANCE ---",
+      "10G heap (was 8G), G1HeapRegionSize 16M for large heaps",
+      "ServerCore target MSPT: 35ms (was 40ms)",
+      "Auto-clear rain every 5 minutes via KubeJS (no more constant rain)",
+      "--- LOOT TABLES ---",
+      "Iron's Spells scrolls in dungeon/nether/end chests (common to legendary tier)",
+      "Occultism items in nether fortress and dungeon chests",
+      "Forbidden & Arcanus stellarite and dragon scales in end cities",
+      "Malum materials in bastion remnants",
+      "Spellbooks and dictionaries in stronghold libraries",
+      "--- NEW SYSTEMS ---",
+      "/link command: generates a clickable URL to link your Minecraft account to the website",
+      "/tzptest: automated crash testing harness (blocks, items, entities, stress test)",
+      "Crash test arena builder at /tzparena"
+    ]
+  }
+]

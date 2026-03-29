@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "version": "2.0.0-beta",
+    "date": "2026-03-29",
+    "title": "The Big One — Beta",
+    "type": "major",
+    "changes": [
+      "--- 67 NEW MODS (195 → 261) ---",
+      "Iron's Spells 'n Spellbooks — full magic system with spell scrolls, staffs, and spellbooks",
+      "Occultism — spirit binding, dimensional storage, ritual crafting",
+      "Malum — soul-infused crafting with soulwood, runewood, and spirit imbuing",
+      "Forbidden & Arcanus — arcane gold, stellarite, dragon scales, dark magic",
+      "Mekanism Tools + Additions — osmium and refined obsidian gear",
+      "Immersive Petroleum — oil drilling, fuel production, pump jacks",
+      "Simply Swords — unique weapon types with special abilities",
+      "Deeper and Darker — Warden-tier dimension with sculk progression",
+      "Sound Physics Remastered — realistic 3D audio with reverb and occlusion",
+      "Simple Voice Chat — proximity voice chat for multiplayer",
+      "L'Ender's Cataclysm — new bosses and dungeon content",
+      "Mutant Monsters — mutant zombie, skeleton, creeper, enderman variants",
+      "Create addons: Connected, Enchantment Industry, Jetpack, Diesel Generators, Deco, Slice & Dice",
+      "YUNG's Better: End Island, Jungle Temples, Mineshafts, Ocean Monuments, Witch Huts, Bridges, Extras",
+      "Terralith + Tectonic — 100+ new biomes and terrain generation",
+      "Dungeons and Taverns + Adventure Dungeons — new structures everywhere",
+      "Guard Villagers, Improved Mobs, Enderman Overhaul, Traveler's Backpack, and more",
+      "--- EMC ECONOMY REWORK ---",
+      "19,697 total EMC entries (up from 19,522)",
+      "25% transmutation tax (covalenceLoss = 0.75) — no more free EMC cycling",
+      "175 new entries for v2.0 mods (Iron's Spells, Occultism, Malum, Forbidden & Arcanus, Mekanism Tools)",
+      "RM/DM armor values corrected (were accidentally inflated 60x)",
+      "EMC generation guide: docs/emc-generation-guide.md",
+      "--- QUESTS ---",
+      "493 total quests (up from 433)",
+      "New chapter: Iron's Spells 'n Spellbooks (25 quests — scroll to legendary progression)",
+      "New chapter: Occultism (20 quests — spirits, rituals, dimensional storage)",
+      "New chapter: Malum (15 quests — soulwood to dark altar mastery)",
+      "New chapter: The MadGod's Trial (15 endgame quests with branching paths)",
+      "New group: Magic & Exploration",
+      "MadGod narration added to 16 key quests across all chapters",
+      "--- KEYBINDS ---",
+      "15 keybind conflicts resolved across 261 mods",
+      "Default keybinds ship with the pack (options.txt)",
+      "Iron's Spells Cast → Mouse 4, Curios → G, Ars Nouveau → C"
+    ]
+  }
+]
