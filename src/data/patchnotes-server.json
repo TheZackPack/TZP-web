@@ -1,14 +1,1 @@
-[
-  {
-    "version": "2.0.0-alpha",
-    "date": "2026-03-28",
-    "title": "Server ZIP v2.0",
-    "type": "major",
-    "changes": [
-      {"category": "Performance", "text": "10GB heap, optimized JVM flags"},
-      {"category": "Balance", "text": "Dimension-based mob scaling"},
-      {"category": "MineColonies", "text": "300 max citizens, difficulty 10, 150-raider attacks"},
-      {"category": "QoL", "text": "Auto weather clear, NeoEssentials permissions"}
-    ]
-  }
-]
+[]

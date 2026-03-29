@@ -2,13 +2,185 @@
   {
     "version": "1.1.9a",
     "date": "2026-03-26",
-    "title": "Hotfix — Amber Falcon",
+    "title": "HOTFIX: Silver Heron — Crash fixes + mod cleanup",
     "type": "hotfix",
     "changes": [
-      {"category": "Fix", "text": "Removed Hexerei (client crash on config load)"},
-      {"category": "Fix", "text": "Removed Mekanism Turrets (API incompatibility)"},
-      {"category": "Fix", "text": "Removed tzp_vanilla_bridge (MadGod disabled)"},
-      {"category": "Sync", "text": "195 mods, fully synced client/server"}
+      "Fixed client crash: MineColonies onPlaySoundEvent accessing config before loaded (IllegalStateException)",
+      "Disabled FancyMenu early menu music to prevent race condition with mod config loading",
+      "Removed Hexerei — was causing 404 sync failures and client tick crashes (removed from client, server, and manifest)",
+      "Removed Mekanism Turrets — incompatible with Mekanism 10.7.18 API (NoSuchMethodError on TileEntityTypeDeferredRegister)",
+      "Removed tzp_vanilla_bridge — server-side mod was spawning hostile 'Nightmare Mode' skeleton patrols near players",
+      "Full VPS mod sync — server now matches client at 195 mods (was running stale mod set)"
+    ]
+  },
+  {
+    "version": "1.1.9",
+    "date": "2026-03-26",
+    "title": "Massive Balance Overhaul + 21 New Mods + Loot & EMC Expansion",
+    "type": "major",
+    "changes": [
+      "--- NEW MODS (21 total, 2 removed in 1.1.9a) ---",
+      "Twilight Forest — full adventure dimension with boss progression (Naga, Lich, Hydra, Ur-Ghast, and more)",
+      "Ars Nouveau — complete spellcasting system with source gems, spell books, and enchanting apparatus",
+      "Steam 'n' Rails — Create rail expansion with new track types, stations, and locomotives",
+      "Chipped — 6,973 decorative block variants via mason's table workbenches",
+      "Born in Chaos — dozens of new hostile mobs that spawn at night for variety and challenge",
+      "Universal Enchants — all enchantments can be applied to all gear types (sword enchants on axes, etc.)",
+      "Better Weaponry — new weapon types including halberds, spears, daggers, and battleaxes via Better Combat",
+      "ImmediatelyFast + Dynamic FPS — client-side rendering and idle performance optimizations (especially for iGPU/laptop players)",
+      "Curios API, Lootr, Explorer's Compass, Bosses of Mass Destruction, 4x YUNG's Better Structures, Friends & Foes, Toasty's Mobs, Traveler's Compass, Puzzles Lib",
+      "--- COMBAT & BALANCE ---",
+      "Iron Golems completely overhauled: 1,000 HP (10x), 20 armor, 6x movement speed, 20x attack speed, half size, permanent Regeneration I — they are now fearsome guardians",
+      "MineColonies guards buffed to 15x damage and 15x health — your colony guards can now hold their own",
+      "MineColonies raids massively buffed: difficulty 8, up to 100 raiders per wave, raids every 7-10 nights — true siege warfare",
+      "Disease nearly eliminated (5% of vanilla rate) — colonists stay healthy",
+      "Mowzie's Mobs buffed to 10x health and 5x damage — boss encounters are now epic and dangerous",
+      "Mowzie spawn weights doubled across all biomes with increased group sizes",
+      "Vanilla hostile mob spawn weights reduced 60-75% (zombies, skeletons, spiders, creepers) — less spam, more meaningful encounters",
+      "Zombie reinforcement mobcap enforced — no more infinite zombie horde stacking",
+      "Monster mobcap reduced from 70 to 50 with slower spawn interval — better server performance and less mob spam",
+      "--- LOOT TABLES ---",
+      "44 custom loot table overrides — modded items now appear in ALL structure chests",
+      "Vanilla dungeons, mineshafts, and villages: Create alloys, Mekanism steel, Ars Nouveau source gems, Farmer's Delight knives",
+      "Strongholds, temples, nether fortresses: AE2 crystals, Twilight Forest ironwood/steeleaf, Mystical Agriculture essences, IE steel",
+      "End cities and woodland mansions: Draconic Evolution draconium, supremium essence, Gobber ingots, Philosopher's Stone",
+      "YUNG's Better Strongholds, Dungeons, Desert Temples, and Nether Fortresses all have tiered modded loot",
+      "Twilight Forest structure chests include cross-mod loot from the full modpack",
+      "--- EMC / TRANSMUTATION ---",
+      "19,720 total EMC entries across 80+ mod namespaces (up from 3,102 in v1.1.8)",
+      "Full coverage: Create (892), Chipped (6,973), Steam 'n' Rails (1,048), Twilight Forest (751), IE (741), Macaw's Furniture (717)",
+      "New mod EMC: Born in Chaos (183 items), Better Weaponry (171 items)",
+      "All previously-gapped namespaces filled: Integrated Dynamics (81), Nether's Exoticism (73), Mystical Agradditions (47), Mowzie's Mobs (42)",
+      "--- QUESTS ---",
+      "Complete quest overhaul — 116 quests across 6 chapters (up from 18)",
+      "New Twilight Forest chapter: 19 quests with full boss progression chain (Naga > Lich > Hydra > Ur-Ghast)",
+      "Tech path: 25 quests covering Create, Mekanism, IE, AE2, Extreme Reactors, Steam 'n' Rails, Industrial Foregoing",
+      "Magic path: 18 quests for ProjectE, Ars Nouveau, EvilCraft, Mystical Agriculture, Apotheosis",
+      "Exploration path: 19 quests spanning Twilight Forest, Undergarden, BOP biomes, bosses, Nether, and End",
+      "Building path: 15 quests for MineColonies, Chipped, Macaw's, Handcrafted, Storage, with Master Builder capstone",
+      "Onboarding: 18 quests — guided new player experience from first wood to choosing your path",
+      "--- PERFORMANCE ---",
+      "ServerCore dynamic performance scaling enabled — automatically adjusts view distance, mob caps, and chunk ticking based on server TPS",
+      "Zombie reinforcement and spawner mobcaps now enforced — prevents entity spam lag",
+      "Fast biome lookups and duplicate fluid tick cancellation enabled",
+      "Chunk loading lag prevention enabled — smoother experience when exploring",
+      "--- FIXES ---",
+      "Fixed Biomes O' Plenty ocelot biome modifier crash — disabled broken bop_ocelot spawner that was crashing the server",
+      "Fixed Iron Golem buff crash — moved attribute overrides from KubeJS startup to datapack (KubeJS runs too early for entity attributes)",
+      "--- SERVER ---",
+      "Deploy script now includes automatic player warning countdown before restarts (30s with broadcasts, kicks, and save-all)",
+      "Old TZP-bot service verified removed from VPS — no more random mob spawning"
+    ]
+  },
+  {
+    "version": "1.1.8",
+    "date": "2026-03-25",
+    "title": "Visual Overhaul + Modpack Manager + Balance Pass",
+    "type": "major",
+    "changes": [
+      "Launcher is now a modpack manager — syncs mods/configs, creates a TZP profile in the official Minecraft launcher, and launches it automatically",
+      "New dark theme with blue accents across the entire website and launcher UI (inspired by Cursor/Warp.dev)",
+      "Removed particle effects, glass/transparency, and animated gradients for a cleaner look",
+      "MineColonies: disease 10x rarer, guards buffed to 5x damage and 5x health",
+      "Modded mob spawns fixed — Mowzie's Mobs datapack weights boosted 5-6x, spawn rates increased across all mob types",
+      "Added tzp_mob_spawns datapack — custom spawn rules for modded mobs across all biomes",
+      "Added 1,185 new EMC entries across 12 mods (total: 3,102) — xnet, minecolonies, Macaw's mods, upgrade_aquatic, and more",
+      "server.properties excluded from VPS deploy — prevents test values overwriting production config",
+      "Added TZP infrastructure documentation — full runbook for VPS, CI/CD, and deployment",
+      "Release tag verification added to CI — builds now fail if the Git tag does not match APP_VERSION",
+      "Windows Java 21 detection expanded with glob-based scanning for all major JDK distributions",
+      "Fixed Windows MC launcher detection — added CurseForge bundled path, MSIX scanning, removed Bedrock URI fallback",
+      "Fixed manifest hash field mismatch — launcher now supports both sha256 and hash keys for backwards compatibility"
+    ]
+  },
+  {
+    "version": "1.1.7",
+    "date": "2026-03-25",
+    "title": "Java Fix + Live Log",
+    "type": "feature",
+    "changes": [
+      "Fixed NeoForge install failing on macOS — now passes explicit Java 21 path instead of falling back to system Java",
+      "Added live Log tab for real-time launcher/update/install event debugging",
+      "Pack sync is now explicit — no more auto-download on startup"
+    ]
+  },
+  {
+    "version": "1.1.6",
+    "date": "2026-03-25",
+    "title": "VPS Migration + CI/CD Pipeline",
+    "type": "patch",
+    "changes": [
+      "Migrated server from PebbleHost to OVH VPS (15.204.117.31) — dedicated 6-core 12GB server with full SSH/root access",
+      "Built GitHub Actions CI/CD pipeline — pushing to TZP-server main auto-deploys to VPS via rsync + systemd restart",
+      "Added 15-second in-game countdown with chat broadcasts before every server restart — no more surprise disconnects",
+      "Added automatic save-all before every stop/restart — prevents inventory loss on restart",
+      "JVM tuning: G1GC with optimized heap, region sizing, and pause targets for modded MC",
+      "server.properties tuning: view distance, simulation distance, and entity tracking optimized",
+      "Added RCON console access script for remote server management",
+      "Fixed CI/CD rsync deleting world data — world/ directory now properly excluded from sync",
+      "Added reset-failed recovery to systemd service for automatic restart after crashes"
+    ]
+  },
+  {
+    "version": "1.1.5",
+    "date": "2026-03-24",
+    "title": "World Gen + EMC + Quest Polish",
+    "type": "patch",
+    "changes": [
+      "Fixed Biomes O' Plenty ocelot biome modifier crash — disabled broken bop_ocelot spawner",
+      "Rebalanced TerraBlender world generation — vanilla biome regions now favored over BoP to reduce biome spam",
+      "Fixed ProjectE custom_emc.json format — EMC entries were silently failing due to incorrect array structure",
+      "Fixed Blueprint data map override — must set replace:true or overrides get ignored",
+      "FTB Quests polished — quest paths, descriptions, and reward tables cleaned up",
+      "KubeJS title screen script added — custom TZP branding on main menu",
+      "KubeJS tips integration — modded gameplay tips appear on loading screens",
+      "Server world reset performed — fresh generation with corrected world gen weights",
+      "Enabled allow-flight in server.properties — jetpacks and creative flight now work without kicks"
+    ]
+  },
+  {
+    "version": "1.1.1",
+    "date": "2026-03-22",
+    "title": "Pack Parity + Infrastructure",
+    "type": "patch",
+    "changes": [
+      "Full config parity sync between client and server — all mod configs now match",
+      "Added MineColonies colony management documentation and tips",
+      "Added Refined Storage patch sources and config references",
+      "Built SFTP deploy scripts for PebbleHost (pre-VPS migration)",
+      "Added pull-sftp-log.sh for remote log fetching and error scanning",
+      "Mowzie's Mobs spawn datapack weights verified and documented"
+    ]
+  },
+  {
+    "version": "1.1.0",
+    "date": "2026-03-21",
+    "title": "Custom Launcher + AI Overhaul",
+    "type": "feature",
+    "changes": [
+      "TZP Launcher: Custom launcher replaces CurseForge distribution",
+      "Website dashboard with bug reports, crash reports, and patch notes",
+      "Claim code auth system for dashboard access",
+      "Manifest-based modpack sync with SHA256 verification",
+      "Fixed diamond/netherite zombie spam from NightmareMode",
+      "Fixed AFK disconnect (/afk now prevents idle kick)",
+      "Added 595 EMC entries (up from 8)",
+      "3 new performance mods: C2ME, Noisium, ServerCore",
+      "Hard difficulty enabled",
+      "11 FTB Quest chapters added"
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "date": "2026-03-20",
+    "title": "Initial Release",
+    "type": "feature",
+    "changes": [
+      "Initial release: 172 mods on NeoForge 1.21.1",
+      "MadGod AI companion with RCON + HTTP bridge integration",
+      "MineColonies, Mekanism, Create, ProjectE, Gobber, and more",
+      "Custom TZP Vanilla Bridge mod for server integration",
+      "Mowzie's Mobs with custom biome spawn datapacks"
     ]
   }
 ]

@@ -1,16 +1,1 @@
-[
-  {
-    "version": "2.0.0-alpha",
-    "date": "2026-03-28",
-    "title": "The Big One",
-    "type": "major",
-    "changes": [
-      {"category": "Mods", "text": "250+ mods — massive expansion"},
-      {"category": "Magic", "text": "Added Iron's Spells, Occultism, Malum, Forbidden & Arcanus"},
-      {"category": "Tech", "text": "Added Immersive Petroleum, Mekanism Tools & Additions"},
-      {"category": "Economy", "text": "EMC economy rework — 25% transmutation tax"},
-      {"category": "Quests", "text": "600+ quests with story narrative"},
-      {"category": "AI", "text": "MadGod AI Dungeon Master rebuild"}
-    ]
-  }
-]
+[]

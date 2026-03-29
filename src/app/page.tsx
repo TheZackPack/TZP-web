@@ -1,5 +1,5 @@
 import ServerStatus from "@/components/ServerStatus";
-import PatchNotes from "@/components/PatchNotes";
+import PatchNotesTabbed from "@/components/PatchNotesTabbed";
 import DownloadButton from "@/components/DownloadButton";
 import StatsBar from "@/components/StatsBar";
 import DynamicModCount from "@/components/DynamicModCount";
@@ -71,10 +71,13 @@ export default function Home() {
       <section className="relative flex flex-col items-center justify-center min-h-screen px-6 text-center pt-20">
         <div className="relative z-10 max-w-4xl mx-auto">
           {/* Live server status pill */}
-          <div className="animate-fade-in-up mb-8 flex items-center justify-center gap-3">
-            <ServerStatus compact />
-            <span className="text-text-secondary/40">·</span>
-            <DynamicModCount />
+          <div className="animate-fade-in-up mb-8 flex flex-col items-center gap-2">
+            <div className="flex items-center gap-3">
+              <ServerStatus compact />
+              <span className="text-text-secondary/40">·</span>
+              <DynamicModCount />
+            </div>
+            <span className="text-xs text-text-secondary">+ Beta server available</span>
           </div>
 
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter gradient-text animate-fade-in-up leading-[0.9]">
@@ -178,23 +181,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Patch Notes */}
-      <section className="max-w-4xl mx-auto px-6 py-24 relative z-10">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Latest Updates</h2>
-          <p className="text-text-secondary">
-            What&apos;s new in the world of TZP
-          </p>
-        </div>
-        <PatchNotes limit={3} />
-        <div className="mt-8 text-center">
-          <a
-            href="/dashboard"
-            className="text-sm text-accent/70 hover:text-accent transition-colors font-mono"
-          >
-            View all patch notes →
+      {/* Recent Updates */}
+      <section className="max-w-4xl mx-auto px-6 py-20">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold text-text-primary">Recent Updates</h2>
+          <a href="/dashboard" className="text-sm text-accent hover:text-accent/80 transition-colors font-mono">
+            View all →
           </a>
         </div>
+        <PatchNotesTabbed />
       </section>
 
       {/* Footer */}
