@@ -1,5 +1,16 @@
 [
   {
+    "version": "1.2.1",
+    "date": "2026-03-29",
+    "title": "HOTFIX: Amber Viper — Instance Isolation",
+    "type": "hotfix",
+    "changes": [
+      {"category": "Fix", "text": "Versions no longer overwrite each other — each gets its own instance folder (stable/ and beta/)"},
+      {"category": "Fix", "text": "Added PebbleHost beta server IP (192.99.215.43:25594)"},
+      {"category": "Fix", "text": "Switching versions is now instant with no re-download needed"}
+    ]
+  },
+  {
     "version": "1.2.0",
     "date": "2026-03-28",
     "title": "Version Picker + System Tray + Crash Detection",
