@@ -119,3 +119,37 @@ CREATE TABLE IF NOT EXISTS item_catalog (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     UNIQUE (pack_version, item_id)
 );
+
+-- ── v2.0 Tables ────────────────────────────────────────────
+
+CREATE TABLE IF NOT EXISTS player_stats (
+    id TEXT PRIMARY KEY,
+    username TEXT NOT NULL,
+    playtime INTEGER DEFAULT 0,
+    deaths INTEGER DEFAULT 0,
+    kills INTEGER DEFAULT 0,
+    quests_completed INTEGER DEFAULT 0,
+    madgod_relationship INTEGER DEFAULT 50,
+    last_seen TIMESTAMPTZ,
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS madgod_events (
+    id SERIAL PRIMARY KEY,
+    player TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    event_name TEXT,
+    description TEXT,
+    outcome TEXT,
+    event_timestamp TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS madgod_story_arcs (
+    id SERIAL PRIMARY KEY,
+    player TEXT NOT NULL,
+    arc_type TEXT NOT NULL,
+    state TEXT NOT NULL,
+    encounters JSONB DEFAULT '[]',
+    started_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);

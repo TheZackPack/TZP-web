@@ -1,0 +1,16 @@
+[
+  {
+    "version": "2.0.0-alpha",
+    "date": "2026-03-28",
+    "title": "Launcher v2.0 Alpha",
+    "type": "major",
+    "changes": [
+      {"category": "Feature", "text": "API-driven dynamic content — no more hardcoded version info"},
+      {"category": "Feature", "text": "System tray support — minimize to tray on game launch"},
+      {"category": "Feature", "text": "Auto crash detection — popup when Minecraft crashes"},
+      {"category": "Feature", "text": "Smart sync diff — shows exactly what changed"},
+      {"category": "Feature", "text": "Self-update mechanism"},
+      {"category": "UI", "text": "Complete dark theme polish"}
+    ]
+  }
+]
