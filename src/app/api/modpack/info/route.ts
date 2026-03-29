@@ -1,23 +1,28 @@
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  // This could be dynamic from DB later, but start with static
   const info = {
-    version: "2.0.0-alpha",
+    // Website display
+    version: "1.1.9",
     mcVersion: "1.21.1",
     neoforgeVersion: "21.1.220",
-    modCount: 250,
-    questCount: 600,
-    emcCount: 20000,
+    modCount: 195,
+    questCount: 493,
+    emcCount: 19697,
     features: [
       "AI Dungeon Master",
-      "250+ Mods",
+      "195+ Mods",
       "NeoForge 1.21.1",
       "EMC Economy",
       "Story Quests"
     ],
-    motd: "v2.0 Alpha — The Big One is coming",
-    serverStatus: "online"
+    motd: "v1.1.9 Live — Beta server now available for testing",
+    serverStatus: "online",
+
+    // Launcher pill fields
+    mod_count: 195,
+    engine: "NeoForge 1.21.1",
+    feature: "AI Dungeon Master",
   }
 
   return NextResponse.json(info, {
