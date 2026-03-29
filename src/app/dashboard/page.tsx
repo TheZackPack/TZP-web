@@ -56,8 +56,8 @@ const SERVERS: ServerInfo[] = [
   {
     name: "beta",
     label: "TZP Beta",
-    ip: "",  // PebbleHost IP — set when available
-    port: 25565,
+    ip: "192.99.215.43",
+    port: 25594,
     version: "v2.0.0-alpha",
     modCount: 261,
     description: "Beta server — testing v2.0 features, new mods, EMC rework.",
