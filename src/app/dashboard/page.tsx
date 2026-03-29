@@ -55,12 +55,12 @@ const SERVERS: ServerInfo[] = [
   },
   {
     name: "beta",
-    label: "TZP Beta",
+    label: "TZP Development",
     ip: "192.99.215.43",
     port: 25594,
-    version: "v2.0.0-alpha",
-    modCount: 261,
-    description: "Beta server — testing v2.0 features, new mods, EMC rework.",
+    version: "Beta",
+    modCount: 265,
+    description: "Development server — testing upcoming features and changes. Expect instability.",
   },
 ];
 
@@ -591,7 +591,7 @@ export default function Dashboard() {
             <div>
               <h1 className="text-2xl font-bold mb-2">Servers</h1>
               <p className="text-text-secondary text-sm">
-                Two servers available — stable for regular play, beta for testing v2.0 features.
+                Two servers — stable for regular play, development for testing upcoming changes.
               </p>
             </div>
 
